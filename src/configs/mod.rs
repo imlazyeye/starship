@@ -1,6 +1,7 @@
 use indexmap::IndexMap;
 use serde::{self, Deserialize, Serialize};
 
+pub mod adam;
 pub mod aws;
 pub mod azure;
 pub mod battery;
@@ -97,6 +98,8 @@ pub struct FullConfig<'a> {
     battery: battery::BatteryConfig<'a>,
     #[serde(borrow)]
     buf: buf::BufConfig<'a>,
+    #[serde(borrow)]
+    adam: adam::AdamConfig<'a>,
     #[serde(borrow)]
     c: c::CConfig<'a>,
     #[serde(borrow)]

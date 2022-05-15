@@ -41,6 +41,7 @@ mod line_break;
 mod localip;
 mod lua;
 mod memory_usage;
+mod adam;
 mod nim;
 mod nix_shell;
 mod nodejs;
@@ -90,6 +91,7 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
         match module {
             // Keep these ordered alphabetically.
             // Default ordering is handled in configs/starship_root.rs
+            "adam" => adam::module(context),
             "aws" => aws::module(context),
             "azure" => azure::module(context),
             #[cfg(feature = "battery")]
@@ -190,6 +192,7 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
 
 pub fn description(module: &str) -> &'static str {
     match module {
+        "adam" => "The current adam version, as well as the GM runtime it is using",
         "aws" => "The current AWS region and profile",
         "azure" => "The current Azure subscription",
         "battery" => "The current charge of the device's battery and its current charging status",
