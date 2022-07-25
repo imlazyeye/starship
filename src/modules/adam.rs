@@ -2,7 +2,6 @@ use super::{Context, Module, ModuleConfig};
 use crate::configs::adam::AdamConfig;
 use crate::formatter::StringFormatter;
 use crate::formatter::VersionFormatter;
-use crate::utils;
 
 /// Creates a module with the current Adam version, as well as the GM runtime it is using
 pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
@@ -66,9 +65,5 @@ fn get_adam_version(context: &Context, config: &AdamConfig) -> Option<String> {
 }
 
 fn get_runtime_version(context: &Context) -> Option<String> {
-    let file_contents = utils::read_file(&context.current_dir.join(".adam.toml")).ok()?;
-    let adam_toml: toml::Value = toml::from_str(&file_contents).ok()?;
-    adam_toml
-        .get("runtime")
-        .map(|v| v.to_string().replace('"', ""))
+    context.exec_cmd("adam", &["--runtime"]).map(|v| v.stdout.replace('\n', ""))
 }
